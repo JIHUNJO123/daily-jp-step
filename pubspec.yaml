@@ -64,4 +64,5 @@ flutter:
 
   assets:
     - assets/data/words.json
+    - assets/data/categories.json
     - assets/icon/

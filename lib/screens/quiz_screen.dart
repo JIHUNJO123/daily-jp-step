@@ -16,6 +16,7 @@ class QuizScreen extends StatefulWidget {
 
 class _QuizScreenState extends State<QuizScreen> {
   List<Word> _words = [];
+  List<Word> _allWords = []; // 전체 단어 (오답 옵션용)
   bool _isLoading = true;
   int _currentQuestionIndex = 0;
   int _score = 0;
@@ -32,13 +33,16 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   Future<void> _loadWords() async {
+    // 먼저 전체 단어를 로드 (오답 옵션용)
+    final allWords = await DatabaseHelper.instance.getAllWords();
+
     List<Word> words;
     if (widget.category != null) {
       words = await DatabaseHelper.instance.getWordsByCategory(
         widget.category!,
       );
     } else {
-      words = await DatabaseHelper.instance.getAllWords();
+      words = allWords;
     }
 
     // Load translations
@@ -46,7 +50,7 @@ class _QuizScreenState extends State<QuizScreen> {
     await translationService.init();
 
     if (translationService.needsTranslation) {
-      for (var word in words) {
+      for (var word in allWords) {
         final embeddedDef = word.getEmbeddedTranslation(
           translationService.currentLanguage,
           'definition',
@@ -62,6 +66,7 @@ class _QuizScreenState extends State<QuizScreen> {
     words = words.take(10).toList();
 
     setState(() {
+      _allWords = allWords;
       _words = words;
       _isLoading = false;
       _generateOptions();
@@ -72,11 +77,29 @@ class _QuizScreenState extends State<QuizScreen> {
     if (_words.isEmpty || _currentQuestionIndex >= _words.length) return;
 
     final currentWord = _words[_currentQuestionIndex];
-    final allWords = List<Word>.from(_words);
-    allWords.remove(currentWord);
-    allWords.shuffle();
 
-    _currentOptions = [currentWord, ...allWords.take(3)];
+    // 전체 단어에서 오답 옵션 선택 (현재 단어 제외)
+    // definition이 있거나 번역된 definition이 있는 것만
+    final availableWords =
+        _allWords.where((w) {
+          if (w.id == currentWord.id) return false;
+          if (w.word.isEmpty) return false;
+
+          // definition 또는 번역된 definition이 있어야 함
+          final hasDefinition =
+              w.definition.isNotEmpty && w.definition.trim().isNotEmpty;
+          final hasTranslation =
+              _translatedDefinitions[w.id]?.isNotEmpty == true;
+
+          return hasDefinition || hasTranslation;
+        }).toList();
+
+    availableWords.shuffle();
+
+    // 최소 3개의 오답 옵션
+    final wrongOptions = availableWords.take(3).toList();
+
+    _currentOptions = [currentWord, ...wrongOptions];
     _currentOptions.shuffle();
   }
 

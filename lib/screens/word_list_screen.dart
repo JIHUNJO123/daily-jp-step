@@ -29,22 +29,81 @@ class _WordListScreenState extends State<WordListScreen> {
   List<Word> _words = [];
   bool _isLoading = true;
   int _currentFlashcardIndex = 0;
-  late PageController _pageController;
+  PageController _pageController = PageController();
   String _sortOrder = 'alphabetical';
   bool _isBannerAdLoaded = false;
   String _searchQuery = '';
+  bool _showCategoryBadge = true; // 카테고리 뱃지 표시 여부
 
   final ScrollController _listScrollController = ScrollController();
   final TextEditingController _searchController = TextEditingController();
 
   Map<int, String> _translatedDefinitions = {};
 
+  // 스크롤/플래시카드 위치 저장용 키
+  String get _scrollPositionKey =>
+      'scroll_position_${widget.category ?? "all"}_${widget.isFlashcardMode}';
+  String get _flashcardPositionKey =>
+      'flashcard_position_${widget.category ?? "all"}';
+
   @override
   void initState() {
     super.initState();
-    _pageController = PageController();
+    _initFlashcardPosition();
+    _listScrollController.addListener(_onScroll);
     _loadWords();
     _loadBannerAd();
+    _loadSettings();
+  }
+
+  Future<void> _initFlashcardPosition() async {
+    // 플래시카드 모드에서 저장된 위치 복원
+    if (widget.isFlashcardMode) {
+      final prefs = await SharedPreferences.getInstance();
+      final savedIndex = prefs.getInt(_flashcardPositionKey) ?? 0;
+      if (mounted) {
+        setState(() {
+          _currentFlashcardIndex = savedIndex;
+          _pageController = PageController(initialPage: savedIndex);
+        });
+      }
+    }
+  }
+
+  // 스크롤 이벤트 핸들러 - 실시간으로 위치 저장
+  void _onScroll() {
+    _saveScrollPosition();
+  }
+
+  Future<void> _loadSettings() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _showCategoryBadge = prefs.getBool('showCategoryBadge') ?? true;
+    });
+  }
+
+  Future<void> _restoreScrollPosition() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedPosition = prefs.getDouble(_scrollPositionKey);
+    if (savedPosition != null && savedPosition > 0) {
+      // 스크롤 위치 복원을 위해 약간의 지연 추가
+      await Future.delayed(const Duration(milliseconds: 100));
+      if (_listScrollController.hasClients && mounted) {
+        _listScrollController.jumpTo(savedPosition);
+      }
+    }
+  }
+
+  Future<void> _saveScrollPosition() async {
+    if (_listScrollController.hasClients) {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setDouble(_scrollPositionKey, _listScrollController.offset);
+    }
+  }
+
+  Future<void> _saveFlashcardPosition(int index) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(_flashcardPositionKey, index);
   }
 
   Future<void> _loadBannerAd() async {
@@ -94,6 +153,13 @@ class _WordListScreenState extends State<WordListScreen> {
       _words = words;
       _isLoading = false;
     });
+
+    // 스크롤 위치 복원 (리스트뷰 모드에서만)
+    if (!widget.isFlashcardMode) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _restoreScrollPosition();
+      });
+    }
   }
 
   List<Word> get _filteredWords {
@@ -121,6 +187,7 @@ class _WordListScreenState extends State<WordListScreen> {
 
   @override
   void dispose() {
+    _listScrollController.removeListener(_onScroll);
     _pageController.dispose();
     _listScrollController.dispose();
     _searchController.dispose();
@@ -140,6 +207,25 @@ class _WordListScreenState extends State<WordListScreen> {
               (widget.isFlashcardMode ? l10n.flashcard : l10n.allWords),
         ),
         actions: [
+          // 카테고리 뱃지 토글 (전체 단어 보기 또는 플래시카드 모드에서만)
+          if (widget.category == null)
+            IconButton(
+              icon: Icon(
+                _showCategoryBadge ? Icons.label : Icons.label_off,
+                color:
+                    _showCategoryBadge
+                        ? Theme.of(context).colorScheme.primary
+                        : null,
+              ),
+              tooltip: 'Toggle category badge',
+              onPressed: () async {
+                final prefs = await SharedPreferences.getInstance();
+                setState(() {
+                  _showCategoryBadge = !_showCategoryBadge;
+                });
+                await prefs.setBool('showCategoryBadge', _showCategoryBadge);
+              },
+            ),
           if (!widget.isFlashcardMode)
             IconButton(
               icon: const Icon(Icons.search),
@@ -290,9 +376,37 @@ class _WordListScreenState extends State<WordListScreen> {
         return Card(
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           child: ListTile(
-            title: Text(
-              word.word,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            title: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    word.word,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                // 카테고리 뱃지 (전체 단어 보기에서만 표시)
+                if (widget.category == null && _showCategoryBadge)
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 2,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      _getCategoryName(word.category),
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      ),
+                    ),
+                  ),
+              ],
             ),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -359,16 +473,28 @@ class _WordListScreenState extends State<WordListScreen> {
             itemCount: words.length,
             onPageChanged: (index) {
               setState(() => _currentFlashcardIndex = index);
+              _saveFlashcardPosition(index);
             },
             itemBuilder: (context, index) {
               final word = words[index];
               final translatedDef = _translatedDefinitions[word.id];
 
+              // 히라가나가 단어와 같거나 비어있으면 표시하지 않음
+              final showHiragana =
+                  word.hiragana != null &&
+                  word.hiragana!.isNotEmpty &&
+                  word.hiragana != word.word;
+
               return Padding(
                 padding: const EdgeInsets.all(24),
                 child: FlipCard(
                   direction: FlipDirection.HORIZONTAL,
-                  front: _buildCardFace(word.word, word.hiragana, true, word),
+                  front: _buildCardFace(
+                    word.word,
+                    showHiragana ? word.hiragana : null,
+                    true,
+                    word,
+                  ),
                   back: _buildCardFace(
                     translatedDef ?? word.definition,
                     word.exampleJp,
@@ -462,6 +588,27 @@ class _WordListScreenState extends State<WordListScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // 카테고리 뱃지 (앞면에서만, 전체 단어 보기에서만)
+            if (isFront && widget.category == null && _showCategoryBadge) ...[
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Text(
+                  _getCategoryName(word.category),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: theme.colorScheme.onPrimary,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+            ],
             Text(
               mainText,
               style: TextStyle(
@@ -521,5 +668,46 @@ class _WordListScreenState extends State<WordListScreen> {
         duration: const Duration(seconds: 1),
       ),
     );
+  }
+
+  /// 카테고리 ID를 현재 언어로 번역된 이름으로 변환
+  String _getCategoryName(String categoryId) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (categoryId) {
+      case 'greeting':
+        return l10n.greeting;
+      case 'restaurant':
+        return l10n.restaurant;
+      case 'shopping':
+        return l10n.shopping;
+      case 'transport':
+        return l10n.transport;
+      case 'hotel':
+        return l10n.hotel;
+      case 'emergency':
+        return l10n.emergency;
+      case 'daily':
+        return l10n.daily;
+      case 'emotion':
+        return l10n.emotion;
+      case 'hospital':
+        return l10n.hospital;
+      case 'school':
+        return l10n.school;
+      case 'business':
+        return l10n.business;
+      case 'bank':
+        return l10n.bank;
+      case 'salon':
+        return l10n.salon;
+      case 'home':
+        return l10n.home;
+      case 'weather':
+        return l10n.weather;
+      case 'party':
+        return l10n.party;
+      default:
+        return categoryId;
+    }
   }
 }

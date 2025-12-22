@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -8,8 +9,10 @@ import 'services/translation_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Mobile Ads
-  await MobileAds.instance.initialize();
+  // Initialize Mobile Ads (웹에서는 지원되지 않음)
+  if (!kIsWeb) {
+    await MobileAds.instance.initialize();
+  }
 
   // Initialize translation service
   await TranslationService.instance.init();
@@ -78,7 +81,7 @@ class _MyAppState extends State<MyApp> {
         ),
         useMaterial3: true,
         appBarTheme: const AppBarTheme(centerTitle: true, elevation: 0),
-        cardTheme: CardTheme(
+        cardTheme: CardThemeData(
           elevation: 2,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -92,7 +95,7 @@ class _MyAppState extends State<MyApp> {
         ),
         useMaterial3: true,
         appBarTheme: const AppBarTheme(centerTitle: true, elevation: 0),
-        cardTheme: CardTheme(
+        cardTheme: CardThemeData(
           elevation: 2,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),

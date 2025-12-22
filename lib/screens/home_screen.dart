@@ -371,7 +371,7 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisCount: 2,
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
-        childAspectRatio: 1.5,
+        childAspectRatio: 1.3,
       ),
       itemCount: menuItems.length,
       itemBuilder: (context, index) {
@@ -381,7 +381,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: item['onTap'] as VoidCallback,
             borderRadius: BorderRadius.circular(12),
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -389,21 +389,27 @@ class _HomeScreenState extends State<HomeScreen> {
                   Icon(
                     item['icon'] as IconData,
                     color: item['color'] as Color,
-                    size: 28,
+                    size: 24,
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    item['title'] as String,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                  const SizedBox(height: 4),
+                  Flexible(
+                    child: Text(
+                      item['title'] as String,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  Text(
-                    item['subtitle'] as String,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: theme.colorScheme.onSurface.withOpacity(0.6),
+                  Flexible(
+                    child: Text(
+                      item['subtitle'] as String,
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: theme.colorScheme.onSurface.withOpacity(0.6),
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],

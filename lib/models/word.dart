@@ -68,14 +68,14 @@ class Word {
         def = json['vietnamese']?.toString();
       }
 
-      // 예문 번역
-      if (json['example_$lang'] != null) {
-        ex = json['example_$lang']?.toString();
-      } else if (lang == 'ko' && json['example_ko'] != null) {
-        ex = json['example_ko']?.toString();
+      // 예문 번역 - example_ko, example_zh, example_es, example_vi
+      final exKey = 'example_$lang';
+      if (json[exKey] != null && json[exKey].toString().isNotEmpty) {
+        ex = json[exKey].toString();
       }
 
-      if (def != null || ex != null) {
+      // 번역 데이터가 있으면 저장
+      if ((def != null && def.isNotEmpty) || (ex != null && ex.isNotEmpty)) {
         translations[lang] = {'definition': def ?? '', 'example': ex ?? ''};
       }
     }
@@ -293,9 +293,17 @@ class Category {
       'shopping': '🛒',
       'transport': '🚃',
       'hotel': '🏨',
-      'emergency': '🏥',
-      'daily': '🏠',
+      'emergency': '🚨',
+      'daily': '📅',
       'emotion': '😊',
+      'hospital': '🏥',
+      'school': '🏫',
+      'business': '💼',
+      'bank': '🏦',
+      'salon': '💇',
+      'home': '🏠',
+      'weather': '🌤️',
+      'party': '🎉',
     };
     return icons[categoryId] ?? '📚';
   }

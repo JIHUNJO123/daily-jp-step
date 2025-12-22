@@ -27,6 +27,7 @@ class AdService {
       'ca-app-pub-5837885590326347/6010545938';
 
   String get bannerAdUnitId {
+    if (kIsWeb) return '';
     if (Platform.isAndroid) {
       return _androidBannerId;
     } else if (Platform.isIOS) {
@@ -36,6 +37,7 @@ class AdService {
   }
 
   String get interstitialAdUnitId {
+    if (kIsWeb) return '';
     if (Platform.isAndroid) {
       return _androidInterstitialId;
     } else if (Platform.isIOS) {
@@ -45,13 +47,20 @@ class AdService {
   }
 
   bool get isInitialized => _isInitialized;
-  bool get adsRemoved => _adsRemoved;
+  bool get adsRemoved => _adsRemoved || kIsWeb; // 웹에서는 항상 광고 제거
   bool get isBannerAdLoaded => _isBannerAdLoaded;
   bool get isInterstitialAdLoaded => _isInterstitialAdLoaded;
   BannerAd? get bannerAd => _bannerAd;
 
   Future<void> initialize() async {
     if (_isInitialized) return;
+
+    // 웹에서는 광고 초기화 스킵
+    if (kIsWeb) {
+      _isInitialized = true;
+      _adsRemoved = true;
+      return;
+    }
 
     // 광고 ?거 구매 ?? ?인
     final prefs = await SharedPreferences.getInstance();
@@ -69,10 +78,11 @@ class AdService {
     }
 
     // JLPT Step N5–N3 AdMob App ID
-    final appId = Platform.isAndroid 
-        ? 'ca-app-pub-5837885590326347~5763133926'  // Android
-        : 'ca-app-pub-5837885590326347~8197725571'; // iOS
-    
+    final appId =
+        Platform.isAndroid
+            ? 'ca-app-pub-5837885590326347~5763133926' // Android
+            : 'ca-app-pub-5837885590326347~8197725571'; // iOS
+
     await MobileAds.instance.initialize();
     _isInitialized = true;
   }

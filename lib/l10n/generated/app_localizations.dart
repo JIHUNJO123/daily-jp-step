@@ -87,6 +87,14 @@ abstract class AppLocalizations {
   String get emergency;
   String get daily;
   String get emotion;
+  String get hospital;
+  String get school;
+  String get business;
+  String get bank;
+  String get salon;
+  String get home;
+  String get weather;
+  String get party;
   String get alphabetical;
   String get random;
   String get tapToFlip;
@@ -263,6 +271,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get daily => 'Daily Life';
   @override
   String get emotion => 'Emotions & Expressions';
+  @override
+  String get hospital => 'Hospital & Medical';
+  @override
+  String get school => 'School & Education';
+  @override
+  String get business => 'Business & Work';
+  @override
+  String get bank => 'Bank & Finance';
+  @override
+  String get salon => 'Salon & Beauty';
+  @override
+  String get home => 'Home & Family';
+  @override
+  String get weather => 'Weather & Nature';
+  @override
+  String get party => 'Party & Events';
   @override
   String get alphabetical => 'Alphabetical';
   @override
@@ -441,6 +465,22 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get emotion => '감정/표현';
   @override
+  String get hospital => '병원/의료';
+  @override
+  String get school => '학교/교육';
+  @override
+  String get business => '비즈니스/업무';
+  @override
+  String get bank => '은행/금융';
+  @override
+  String get salon => '미용실/뷰티';
+  @override
+  String get home => '가정/가족';
+  @override
+  String get weather => '날씨/자연';
+  @override
+  String get party => '파티/행사';
+  @override
   String get alphabetical => '가나다순';
   @override
   String get random => '랜덤';
@@ -615,6 +655,22 @@ class AppLocalizationsZh extends AppLocalizations {
   String get daily => '日常生活';
   @override
   String get emotion => '情感/表达';
+  @override
+  String get hospital => '医院/医疗';
+  @override
+  String get school => '学校/教育';
+  @override
+  String get business => '商务/工作';
+  @override
+  String get bank => '银行/金融';
+  @override
+  String get salon => '美容院/美发';
+  @override
+  String get home => '家庭/家人';
+  @override
+  String get weather => '天气/自然';
+  @override
+  String get party => '派对/活动';
   @override
   String get alphabetical => '字母顺序';
   @override
@@ -791,6 +847,22 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get emotion => 'Emociones y Expresiones';
   @override
+  String get hospital => 'Hospital y medicina';
+  @override
+  String get school => 'Escuela y educación';
+  @override
+  String get business => 'Negocios y trabajo';
+  @override
+  String get bank => 'Banco y finanzas';
+  @override
+  String get salon => 'Salón y belleza';
+  @override
+  String get home => 'Hogar y familia';
+  @override
+  String get weather => 'Clima y naturaleza';
+  @override
+  String get party => 'Fiesta y eventos';
+  @override
   String get alphabetical => 'Alfabético';
   @override
   String get random => 'Aleatorio';
@@ -966,6 +1038,22 @@ class AppLocalizationsVi extends AppLocalizations {
   String get daily => 'Cuộc Sống Hằng Ngày';
   @override
   String get emotion => 'Cảm Xúc & Biểu Đạt';
+  @override
+  String get hospital => 'Bệnh viện & Y tế';
+  @override
+  String get school => 'Trường học & Giáo dục';
+  @override
+  String get business => 'Kinh doanh & Công việc';
+  @override
+  String get bank => 'Ngân hàng & Tài chính';
+  @override
+  String get salon => 'Salon & Làm đẹp';
+  @override
+  String get home => 'Nhà cửa & Gia đình';
+  @override
+  String get weather => 'Thời tiết & Thiên nhiên';
+  @override
+  String get party => 'Tiệc tùng & Sự kiện';
   @override
   String get alphabetical => 'Theo Thứ Tự';
   @override
