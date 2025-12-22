@@ -10,7 +10,7 @@ class PurchaseService {
   PurchaseService._internal();
 
   // 제품 ID
-  static const String removeAdsProductId = 'jlpt_step_n5_n3_premium';
+  static const String removeAdsProductId = 'daily_jp_step_premium';
   static const Set<String> _productIds = {removeAdsProductId};
 
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;
