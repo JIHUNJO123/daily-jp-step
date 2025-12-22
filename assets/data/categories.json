@@ -1,0 +1,74 @@
+[
+  {
+    "id": "greeting",
+    "name_en": "Greetings & Basics",
+    "name_ko": "인사/기본 표현",
+    "name_zh": "问候/基本表达",
+    "name_es": "Saludos y básicos",
+    "name_vi": "Chào hỏi & Cơ bản",
+    "word_count": 73
+  },
+  {
+    "id": "restaurant",
+    "name_en": "Restaurant & Food",
+    "name_ko": "식당/음식",
+    "name_zh": "餐厅/美食",
+    "name_es": "Restaurante y comida",
+    "name_vi": "Nhà hàng & Ẩm thực",
+    "word_count": 89
+  },
+  {
+    "id": "shopping",
+    "name_en": "Shopping & Price",
+    "name_ko": "쇼핑/가격",
+    "name_zh": "购物/价格",
+    "name_es": "Compras y precios",
+    "name_vi": "Mua sắm & Giá cả",
+    "word_count": 72
+  },
+  {
+    "id": "transport",
+    "name_en": "Transport & Directions",
+    "name_ko": "교통/길찾기",
+    "name_zh": "交通/问路",
+    "name_es": "Transporte y direcciones",
+    "name_vi": "Giao thông & Chỉ đường",
+    "word_count": 73
+  },
+  {
+    "id": "hotel",
+    "name_en": "Hotel & Accommodation",
+    "name_ko": "호텔/숙박",
+    "name_zh": "酒店/住宿",
+    "name_es": "Hotel y alojamiento",
+    "name_vi": "Khách sạn & Lưu trú",
+    "word_count": 44
+  },
+  {
+    "id": "emergency",
+    "name_en": "Emergency & Health",
+    "name_ko": "응급/건강",
+    "name_zh": "紧急/健康",
+    "name_es": "Emergencia y salud",
+    "name_vi": "Khẩn cấp & Sức khỏe",
+    "word_count": 38
+  },
+  {
+    "id": "daily",
+    "name_en": "Daily Life",
+    "name_ko": "일상생활",
+    "name_zh": "日常生活",
+    "name_es": "Vida diaria",
+    "name_vi": "Cuộc sống hàng ngày",
+    "word_count": 123
+  },
+  {
+    "id": "emotion",
+    "name_en": "Emotions & Expressions",
+    "name_ko": "감정/표현",
+    "name_zh": "情感/表达",
+    "name_es": "Emociones y expresiones",
+    "name_vi": "Cảm xúc & Biểu đạt",
+    "word_count": 42
+  }
+]

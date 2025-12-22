@@ -1,0 +1,59 @@
+# Flutter/Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+*.lock
+pubspec.lock
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Android
+android/.gradle/
+**/android/**/gradle-wrapper.jar
+**/android/**/gradle/wrapper/gradle-wrapper.properties
+*.hprof
+
+# iOS
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/.last_build_id
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/build/
+
+# Data files (large)
+*.tsv
+*.tsv.bz2
+*.tar.bz2
+*.gz
+*.xml
+JMdict_e
+links.csv
+*.json.bak
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+.env
+
+# Build outputs
+build/
+*.class
+*.dex
+*.apk
+*.aab
+*.ipa
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Large generated files
+onomatopoeia*.json
+jlpt_vocab_app/
