@@ -5,6 +5,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'l10n/generated/app_localizations.dart';
 import 'screens/home_screen.dart';
 import 'services/translation_service.dart';
+import 'services/purchase_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +17,9 @@ void main() async {
 
   // Initialize translation service
   await TranslationService.instance.init();
+
+  // Initialize purchase service
+  await PurchaseService.instance.initialize();
 
   runApp(const MyApp());
 }
