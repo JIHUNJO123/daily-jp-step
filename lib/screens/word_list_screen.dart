@@ -13,12 +13,14 @@ class WordListScreen extends StatefulWidget {
   final String? category;
   final String? categoryName;
   final bool isFlashcardMode;
+  final bool favoritesOnly;
 
   const WordListScreen({
     super.key,
     this.category,
     this.categoryName,
     this.isFlashcardMode = false,
+    this.favoritesOnly = false,
   });
 
   @override
@@ -125,7 +127,9 @@ class _WordListScreenState extends State<WordListScreen> {
 
   Future<void> _loadWords() async {
     List<Word> words;
-    if (widget.category != null) {
+    if (widget.favoritesOnly) {
+      words = await DatabaseHelper.instance.getFavorites();
+    } else if (widget.category != null) {
       words = await DatabaseHelper.instance.getWordsByCategory(
         widget.category!,
       );

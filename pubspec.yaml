@@ -2,7 +2,7 @@ name: daily_jp_step
 description: "Daily JP Step - Practical Japanese phrases for everyday situations"
 publish_to: 'none'
 
-version: 1.0.0+5
+version: 1.0.1+6
 
 environment:
   sdk: ^3.7.0

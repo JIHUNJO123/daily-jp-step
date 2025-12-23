@@ -91,5 +91,6 @@
   "showFuriganaInList": "단어 목록에 후리가나 표시",
   "showFuriganaInListDesc": "단어 목록에서 한자 위에 읽기 표시",
   "search": "검색",
-  "searchHint": "단어 검색..."
+  "searchHint": "단어 검색...",
+  "cancel": "취소"
 }

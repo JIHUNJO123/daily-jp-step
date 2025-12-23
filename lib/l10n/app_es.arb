@@ -91,5 +91,6 @@
   "showFuriganaInList": "Mostrar furigana en la lista",
   "showFuriganaInListDesc": "Mostrar lectura sobre kanji en la lista de palabras",
   "search": "Buscar",
-  "searchHint": "Buscar palabras..."
+  "searchHint": "Buscar palabras...",
+  "cancel": "Cancelar"
 }

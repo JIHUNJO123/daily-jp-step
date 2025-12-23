@@ -91,5 +91,6 @@
   "showFuriganaInList": "Hiện furigana trong danh sách",
   "showFuriganaInListDesc": "Hiển thị cách đọc trên kanji trong danh sách từ",
   "search": "Tìm kiếm",
-  "searchHint": "Tìm từ vựng..."
+  "searchHint": "Tìm từ vựng...",
+  "cancel": "Hủy"
 }

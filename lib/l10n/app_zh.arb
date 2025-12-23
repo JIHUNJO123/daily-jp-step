@@ -91,5 +91,6 @@
   "showFuriganaInList": "在单词列表中显示注音",
   "showFuriganaInListDesc": "在单词列表中的汉字上方显示读音",
   "search": "搜索",
-  "searchHint": "搜索单词..."
+  "searchHint": "搜索单词...",
+  "cancel": "取消"
 }

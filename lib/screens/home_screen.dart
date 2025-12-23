@@ -116,6 +116,124 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  void _showLevelSelectionDialog({required bool isQuiz}) {
+    final l10n = AppLocalizations.of(context)!;
+    final langCode = TranslationService.instance.currentLanguage;
+
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: Text(isQuiz ? l10n.quiz : l10n.flashcard),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // All Words
+                  ListTile(
+                    leading: const Icon(Icons.list_alt),
+                    title: Text(l10n.allWords),
+                    onTap: () {
+                      Navigator.pop(context);
+                      if (isQuiz) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const QuizScreen(),
+                          ),
+                        );
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) =>
+                                    const WordListScreen(isFlashcardMode: true),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                  // Favorites
+                  ListTile(
+                    leading: const Icon(Icons.favorite, color: Colors.red),
+                    title: Text(l10n.favorites),
+                    onTap: () {
+                      Navigator.pop(context);
+                      if (isQuiz) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) =>
+                                    const QuizScreen(favoritesOnly: true),
+                          ),
+                        );
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) => const WordListScreen(
+                                  isFlashcardMode: true,
+                                  favoritesOnly: true,
+                                ),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                  if (_categories.isNotEmpty) ...[
+                    const Divider(),
+                    // Categories
+                    ..._categories.map(
+                      (category) => ListTile(
+                        leading: Text(
+                          category.icon,
+                          style: const TextStyle(fontSize: 24),
+                        ),
+                        title: Text(category.getName(langCode)),
+                        onTap: () {
+                          Navigator.pop(context);
+                          if (isQuiz) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (context) =>
+                                        QuizScreen(category: category.id),
+                              ),
+                            );
+                          } else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (context) => WordListScreen(
+                                      isFlashcardMode: true,
+                                      category: category.id,
+                                      categoryName: category.getName(langCode),
+                                    ),
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(l10n.cancel),
+              ),
+            ],
+          ),
+    );
+  }
+
   @override
   void dispose() {
     AdService.instance.disposeBannerAd();
@@ -342,25 +460,14 @@ class _HomeScreenState extends State<HomeScreen> {
         'title': l10n.flashcard,
         'subtitle': l10n.cardLearning,
         'color': Colors.orange,
-        'onTap':
-            () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder:
-                    (context) => const WordListScreen(isFlashcardMode: true),
-              ),
-            ),
+        'onTap': () => _showLevelSelectionDialog(isQuiz: false),
       },
       {
         'icon': Icons.quiz,
         'title': l10n.quiz,
         'subtitle': l10n.testYourself,
         'color': Colors.green,
-        'onTap':
-            () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const QuizScreen()),
-            ),
+        'onTap': () => _showLevelSelectionDialog(isQuiz: true),
       },
     ];
 

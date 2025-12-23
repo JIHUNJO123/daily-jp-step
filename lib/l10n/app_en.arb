@@ -105,5 +105,6 @@
   "showFuriganaInList": "Show Furigana in Word List",
   "showFuriganaInListDesc": "Display reading above kanji in word list",
   "search": "Search",
-  "searchHint": "Search words..."
+  "searchHint": "Search words...",
+  "cancel": "Cancel"
 }
