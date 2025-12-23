@@ -146,11 +146,16 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                           onPressed: () => _removeFavorite(word),
                         ),
                         onTap: () async {
+                          final favListCopy = List<Word>.from(_favorites);
                           await Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder:
-                                  (context) => WordDetailScreen(word: word),
+                                  (context) => WordDetailScreen(
+                                    word: word,
+                                    wordList: favListCopy,
+                                    currentIndex: index,
+                                  ),
                             ),
                           );
                           _loadFavorites();

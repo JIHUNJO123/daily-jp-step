@@ -434,13 +434,28 @@ class _WordListScreenState extends State<WordListScreen> {
               ),
               onPressed: () => _toggleFavorite(word),
             ),
-            onTap: () {
-              Navigator.push(
+            onTap: () async {
+              final result = await Navigator.push<int>(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => WordDetailScreen(word: word),
+                  builder:
+                      (context) => WordDetailScreen(
+                        word: word,
+                        wordList: List<Word>.from(words),
+                        currentIndex: index,
+                      ),
                 ),
               );
+              if (result != null && result != index && mounted) {
+                final targetOffset = result * 80.0;
+                if (_listScrollController.hasClients) {
+                  _listScrollController.animateTo(
+                    targetOffset,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                  );
+                }
+              }
             },
           ),
         );
