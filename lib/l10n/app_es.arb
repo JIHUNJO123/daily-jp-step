@@ -92,5 +92,10 @@
   "showFuriganaInListDesc": "Mostrar lectura sobre kanji en la lista de palabras",
   "search": "Buscar",
   "searchHint": "Buscar palabras...",
-  "cancel": "Cancelar"
+  "cancel": "Cancelar",
+  "lockedContent": "Contenido bloqueado",
+  "watchAdToUnlock": "¡Mira un video corto para desbloquear todas las palabras hasta la medianoche!",
+  "watchAd": "Ver anuncio",
+  "adNotReady": "El anuncio aún no está listo. Por favor, inténtalo de nuevo.",
+  "unlockedUntilMidnight": "¡Todas las palabras desbloqueadas hasta la medianoche!"
 }
