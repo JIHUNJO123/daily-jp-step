@@ -72,7 +72,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get dailyReminder => 'Recordatorio diario';
 
   @override
-  String get dailyReminderDesc => 'Recibe un recordatorio para estudiar cada día';
+  String get dailyReminderDesc =>
+      'Recibe un recordatorio para estudiar cada día';
 
   @override
   String get removeAds => 'Eliminar anuncios';
@@ -111,7 +112,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get disclaimer => 'Descargo de responsabilidad';
 
   @override
-  String get disclaimerText => 'Esta aplicación proporciona frases prácticas en japonés para uso diario y viajes. El contenido es con fines educativos.';
+  String get disclaimerText =>
+      'Esta aplicación proporciona frases prácticas en japonés para uso diario y viajes. El contenido es con fines educativos.';
 
   @override
   String get privacyPolicy => 'Política de privacidad';
@@ -250,10 +252,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get keepPracticing => '¡Sigue practicando! ¡Mejorarás!';
 
   @override
-  String get privacyPolicyContent => 'Esta aplicación no recopila, almacena ni comparte ninguna información personal. Tu progreso de aprendizaje y favoritos se almacenan solo en tu dispositivo. No se transmiten datos a servidores externos.';
+  String get privacyPolicyContent =>
+      'Esta aplicación no recopila, almacena ni comparte ninguna información personal. Tu progreso de aprendizaje y favoritos se almacenan solo en tu dispositivo. No se transmiten datos a servidores externos.';
 
   @override
-  String get restorePurchaseDesc => 'Si has comprado previamente la eliminación de anuncios en otro dispositivo o después de reinstalar la aplicación, toca aquí para restaurar tu compra.';
+  String get restorePurchaseDesc =>
+      'Si has comprado previamente la eliminación de anuncios en otro dispositivo o después de reinstalar la aplicación, toca aquí para restaurar tu compra.';
 
   @override
   String get restoreComplete => 'Restauración completada';
@@ -280,7 +284,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get showFuriganaInList => 'Mostrar furigana en la lista';
 
   @override
-  String get showFuriganaInListDesc => 'Mostrar lectura sobre kanji en la lista de palabras';
+  String get showFuriganaInListDesc =>
+      'Mostrar lectura sobre kanji en la lista de palabras';
 
   @override
   String get search => 'Buscar';
@@ -290,4 +295,20 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get cancel => 'Cancelar';
+
+  @override
+  String get lockedContent => 'Locked Content';
+
+  @override
+  String get watchAdToUnlock =>
+      'Watch a short video to unlock all words until midnight!';
+
+  @override
+  String get watchAd => 'Watch Ad';
+
+  @override
+  String get adNotReady => 'Ad is not ready yet. Please try again.';
+
+  @override
+  String get unlockedUntilMidnight => 'All words unlocked until midnight!';
 }

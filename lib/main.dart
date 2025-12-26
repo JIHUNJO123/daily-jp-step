@@ -6,6 +6,7 @@ import 'l10n/generated/app_localizations.dart';
 import 'screens/home_screen.dart';
 import 'services/translation_service.dart';
 import 'services/purchase_service.dart';
+import 'services/ad_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +18,10 @@ void main() async {
 
   // Initialize translation service
   await TranslationService.instance.init();
+
+  // 광고 서비스 초기화 (잠금 해제 상태 로드 + 보상형 광고 로드)
+  await AdService.instance.loadUnlockStatus();
+  AdService.instance.loadRewardedAd();
 
   // Initialize purchase service
   await PurchaseService.instance.initialize();

@@ -92,5 +92,10 @@
   "showFuriganaInListDesc": "단어 목록에서 한자 위에 읽기 표시",
   "search": "검색",
   "searchHint": "단어 검색...",
-  "cancel": "취소"
+  "cancel": "취소",
+  "lockedContent": "잠긴 콘텐츠",
+  "watchAdToUnlock": "짧은 영상을 시청하면 자정까지 모든 단어가 잠금 해제됩니다!",
+  "watchAd": "광고 보기",
+  "adNotReady": "광고가 준비되지 않았습니다. 다시 시도해 주세요.",
+  "unlockedUntilMidnight": "자정까지 모든 단어가 잠금 해제되었습니다!"
 }
