@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -7,14 +6,13 @@ import 'l10n/generated/app_localizations.dart';
 import 'screens/home_screen.dart';
 import 'services/translation_service.dart';
 import 'services/purchase_service.dart';
-import 'services/ad_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   try {
-    // Initialize Mobile Ads (Android/iOS에서만)
-    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+    // Initialize Mobile Ads (웹에서는 지원되지 않음)
+    if (!kIsWeb) {
       await MobileAds.instance.initialize();
     }
   } catch (e) {
@@ -26,14 +24,6 @@ void main() async {
     await TranslationService.instance.init();
   } catch (e) {
     debugPrint('TranslationService init error: $e');
-  }
-
-  try {
-    // 광고 서비스 초기화 (잠금 해제 상태 로드 + 보상형 광고 로드)
-    await AdService.instance.loadUnlockStatus();
-    AdService.instance.loadRewardedAd();
-  } catch (e) {
-    debugPrint('AdService init error: $e');
   }
 
   try {
