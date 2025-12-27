@@ -12,20 +12,36 @@ import 'services/ad_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Mobile Ads (Android/iOS에서만)
-  if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
-    await MobileAds.instance.initialize();
+  try {
+    // Initialize Mobile Ads (Android/iOS에서만)
+    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+      await MobileAds.instance.initialize();
+    }
+  } catch (e) {
+    debugPrint('MobileAds init error: $e');
   }
 
-  // Initialize translation service
-  await TranslationService.instance.init();
+  try {
+    // Initialize translation service
+    await TranslationService.instance.init();
+  } catch (e) {
+    debugPrint('TranslationService init error: $e');
+  }
 
-  // 광고 서비스 초기화 (잠금 해제 상태 로드 + 보상형 광고 로드)
-  await AdService.instance.loadUnlockStatus();
-  AdService.instance.loadRewardedAd();
+  try {
+    // 광고 서비스 초기화 (잠금 해제 상태 로드 + 보상형 광고 로드)
+    await AdService.instance.loadUnlockStatus();
+    AdService.instance.loadRewardedAd();
+  } catch (e) {
+    debugPrint('AdService init error: $e');
+  }
 
-  // Initialize purchase service
-  await PurchaseService.instance.initialize();
+  try {
+    // Initialize purchase service
+    await PurchaseService.instance.initialize();
+  } catch (e) {
+    debugPrint('PurchaseService init error: $e');
+  }
 
   runApp(const MyApp());
 }
